@@ -17,9 +17,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      text-align: center;
+    text-align: center;
     }
-
     #container {
       background-color: rgba(0, 0, 0, 0.6);
       padding: 30px;
@@ -29,24 +28,20 @@
       box-sizing: border-box;
       position: relative;
     }
-
     form {
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
       text-align: left;
     }
-
     label {
       margin-bottom: 5px;
       color: white;
     }
-
     .input-wrapper {
       position: relative;
       margin-bottom: 15px;
     }
-
     .input-wrapper input {
       width: 100%;
       padding: 10px;
@@ -56,7 +51,6 @@
       border-radius: 5px;
       box-sizing: border-box;
     }
-
     .input-wrapper span {
       position: absolute;
       right: 10px;
@@ -66,13 +60,11 @@
       user-select: none;
       color: white;
     }
-
     input:focus {
       outline: 2px solid #80bdff;
       background-color: #222;
       color: rgb(243, 237, 237);
     }
-
     button {
       padding: 10px;
       font-size: 1em;
@@ -84,17 +76,14 @@
       border-radius: 5px;
       transition: background-color 0.3s ease;
     }
-
     button:hover {
       background-color: #0056b3;
     }
-
     .error {
       color: #ff6b6b;
       margin-bottom: 10px;
       font-weight: bold;
     }
-
     .link {
       color: #80bdff;
       cursor: pointer;
@@ -102,17 +91,14 @@
       margin-top: 10px;
       display: inline-block;
     }
-
     .btn-container {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-
     h2 {
       margin-bottom: 20px;
     }
-
     #logoutBtn {
       position: fixed;
       top: 20px;
@@ -127,7 +113,6 @@
       z-index: 1000;
       transition: background-color 0.3s ease;
     }
-
     #logoutBtn:hover {
       background-color: #a71d2a;
     }
@@ -135,7 +120,6 @@
 </head>
 <body>
   <div id="container">
-
     <!-- Login View -->
     <div id="loginView">
       <h2>Login</h2>
@@ -145,18 +129,15 @@
         <div class="input-wrapper">
           <input type="text" id="loginUsername" required />
         </div>
-
         <label for="loginPassword">Password:</label>
         <div class="input-wrapper">
           <input type="password" id="loginPassword" required />
           <span onclick="togglePassword('loginPassword', this)">👁️</span>
         </div>
-
         <button type="submit">Login</button>
       </form>
       <span class="link" id="goToRegister">Don't have an account? Register</span>
     </div>
-
     <!-- Register View -->
     <div id="registerView" style="display:none;">
       <h2>Register</h2>
@@ -166,18 +147,15 @@
         <div class="input-wrapper">
           <input type="text" id="regUsername" required />
         </div>
-
         <label for="regPassword">Password:</label>
         <div class="input-wrapper">
           <input type="password" id="regPassword" required />
           <span onclick="togglePassword('regPassword', this)">👁️</span>
         </div>
-
         <button type="submit">Register</button>
       </form>
       <span class="link" id="goToLogin">Already have an account? Login</span>
     </div>
-
     <!-- Dashboard View -->
     <div id="dashboardView" style="display:none;">
       <h2>Dashboard</h2>
@@ -187,14 +165,11 @@
       </div>
       <button id="logoutBtn" onclick="logout()">Logout</button>
     </div>
-
   </div>
-
   <script>
     const loginView = document.getElementById('loginView');
     const registerView = document.getElementById('registerView');
     const dashboardView = document.getElementById('dashboardView');
-
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const loginError = document.getElementById('loginError');
@@ -202,53 +177,44 @@
     const goToRegister = document.getElementById('goToRegister');
     const goToLogin = document.getElementById('goToLogin');
     const userDisplay = document.getElementById('userDisplay');
-
     function show(view) {
       loginView.style.display = 'none';
       registerView.style.display = 'none';
       dashboardView.style.display = 'none';
       view.style.display = 'block';
     }
-
     goToRegister.onclick = () => {
       registerForm.reset();
       loginError.textContent = '';
       show(registerView);
     };
-
     goToLogin.onclick = () => {
       loginForm.reset();
       registerError.textContent = '';
       show(loginView);
     };
-
     registerForm.onsubmit = (e) => {
       e.preventDefault();
       const username = document.getElementById('regUsername').value.trim();
       const password = document.getElementById('regPassword').value;
-
       if (!username || !password) {
         registerError.textContent = 'Please fill in both fields.';
         return;
       }
-
       const users = JSON.parse(localStorage.getItem('users') || '{}');
       if (users[username]) {
         registerError.textContent = 'Username already exists.';
         return;
       }
-
       users[username] = password;
       localStorage.setItem('users', JSON.stringify(users));
       alert('Registration successful! Please log in.');
       show(loginView);
     };
-
     loginForm.onsubmit = (e) => {
       e.preventDefault();
       const username = document.getElementById('loginUsername').value.trim();
       const password = document.getElementById('loginPassword').value;
-
       const users = JSON.parse(localStorage.getItem('users') || '{}');
       if (users[username] === password) {
         localStorage.setItem('loggedInUser', username);
@@ -258,16 +224,13 @@
         loginError.textContent = 'Invalid username or password.';
       }
     };
-
     function goToHome() {
       window.location.href = 'home.html';
     }
-
     function logout() {
       localStorage.removeItem('loggedInUser');
       show(loginView);
     }
-
     function togglePassword(inputId, iconElement) {
       const input = document.getElementById(inputId);
       if (input.type === 'password') {
@@ -278,7 +241,6 @@
         iconElement.textContent = '👁️';
       }
     }
-
     window.onload = () => {
       const user = localStorage.getItem('loggedInUser');
       if (user) {
@@ -291,4 +253,3 @@
   </script>
 </body>
 </html>
-
